@@ -20,6 +20,7 @@ public class Comment {
 
     // 댓글(부모)
     @ManyToOne
+    @JoinColumn(name = "parent_id")
     private Comment parent;
 
     @Column(columnDefinition = "TEXT")

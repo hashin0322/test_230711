@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 @Getter
 @Setter
@@ -26,5 +27,6 @@ public class Post {
     private LocalDateTime createDate;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @Where(clause = "parent_id is null")
     private List<Comment> commentList;
 }
