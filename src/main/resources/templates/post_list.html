@@ -1,16 +1,19 @@
-<table>
-    <thead>
-    <tr>
-        <th>제목</th>
-        <th>작성일시</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="post : ${postList}">
-        <td>
-            <a th:href="@{|/post/detail/${post.id}|}" th:text="${post.subject}"></a>
-        </td>
-        <td th:text="${post.createDate}"></td>
-    </tr>
-    </tbody>
-</table>
+<div>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+    <table>
+        <tr>
+            <th>제목</th>
+            <th>작성일시</th>
+        </tr>
+        <tr th:each="post : ${postList}">
+            <td>
+                <a th:href="@{|/post/detail/${post.id}|}" th:text="${post.subject}"></a>
+            </td>
+            <td th:text="${post.createDate}"></td>
+        </tr>
+    </table>
+
+    <form th:action="@{|/post/create|}">
+        <input type="submit" value="게시물작성">
+    </form>
+</div>
