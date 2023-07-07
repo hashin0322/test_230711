@@ -1,15 +1,24 @@
 package com.korea.basic1.post;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
-
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+
+
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/post")
@@ -36,9 +45,20 @@ public class PostController {
         return "post_detail";
     }
 
+    @PostMapping("/create")
+    public String create(@Valid PostForm postForm, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "post_form";
+        }
+
+        this.postService.create(postForm.getSubject(), postForm.getContent(), postForm.getUploadFile());
+        return "redirect:/post/list";
+    }
     @GetMapping("/create")
-    public String create()
-    {
+    public String questionCreate(PostForm postForm) {
         return "post_form";
     }
+
+
+
 }

@@ -6,9 +6,12 @@
         </tr>
     </table>
     <div>
-        <form th:action="@{|/post/create|}" method="post">
+        <form th:action="@{|/post/create|}" th:object="${postForm}" method="post">
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+                <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+            </div>
             제목<input type="text" name="text" id="subject" class="form-control">
-            이미지<textarea name="file" id="file" class="form-control" rows="10"></textarea>
+            이미지<textarea name="file" id="uploadFile" class="form-control" rows="10"></textarea>
             상세내용<textarea name="content" id="content" class="form-control" rows="10"></textarea>
             <input type="submit" value="저장하기">
         </form>

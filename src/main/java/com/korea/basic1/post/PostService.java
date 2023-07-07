@@ -27,9 +27,18 @@ public class PostService {
             return post.get();
         }
         else {
-             throw new DataNotFoundException("post not found");
+            throw new DataNotFoundException("post not found");
         }
     }
 
+    public void create(String subject, String content, String uploadFile){
+        Post p = new Post();
+        p.setSubject(subject);
+        p.setContent(content);
+        p.setUploadFile(uploadFile);
+        p.setCreateDate(LocalDateTime.now());
+
+        this.postRepository.save(p);
+    }
 
 }
