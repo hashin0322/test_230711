@@ -5,13 +5,10 @@
             <th>게시물 등록</th>
         </tr>
     </table>
-    <div>
+    <div class="container">
         <form th:action="@{|/post/create|}" th:object="${postForm}" method="post">
-            <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-                <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
-            </div>
-            제목<input type="text" name="text" id="subject" class="form-control">
-            이미지<textarea name="file" id="uploadFile" class="form-control" rows="10"></textarea>
+            제목<input type="text" name="subject" id="subject" class="form-control">
+            이미지<input type="file" name="image">
             상세내용<textarea name="content" id="content" class="form-control" rows="10"></textarea>
             <input type="submit" value="저장하기">
         </form>

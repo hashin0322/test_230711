@@ -5,8 +5,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,19 +48,37 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String create(@Valid PostForm postForm, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
-            return "post_form";
-        }
+    public String create(@RequestParam String subject, @RequestParam List<MultipartFile> files, @RequestParam String content) {
 
-        this.postService.create(postForm.getSubject(), postForm.getContent(), postForm.getUploadFile());
+        this.postService.create(subject, files, content);
         return "redirect:/post/list";
     }
+
+
     @GetMapping("/create")
     public String questionCreate(PostForm postForm) {
+
         return "post_form";
     }
 
+
+
+    @PostMapping("/post")
+    public ResponseEntity<?> createPost(
+            @Validated @RequestParam("files") List<MultipartFile> files
+    ) throws Exception {
+        postService.addPost(Post.builder().build(), files);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/post")
+    public String getBoard(@RequestParam long id) {
+        Post post = postService.findpost(id).orElseThrow(RuntimeException::new);
+        String imgPath = post.getStoredFileName();
+        log.info(imgPath);
+        return "<img src=" + imgPath + ">";
+    }
 
 
 }
