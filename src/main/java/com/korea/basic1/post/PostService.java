@@ -65,7 +65,7 @@ public class PostService {
             Post post,
             List<MultipartFile> files
     ) throws Exception {
-        // 파일을 저장하고 그 Post 에 대한 list 를 가지고 있는다
+        // 파일을 저장하고 그 Board 에 대한 list 를 가지고 있는다
         List<Post> list = fileHandler.parseFileInfo(post.getId(), files);
 
         if (list.isEmpty()){
@@ -86,7 +86,7 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Optional<Post> findPost(int id) {
+    public Optional<Post> findPost(Integer id) {
         return postRepository.findById(id);
     }
 
